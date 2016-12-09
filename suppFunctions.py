@@ -76,10 +76,10 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['Hexose_P_Isomerase_Lt_p','Hexose_P_Isomerase_Dk_p'],
                 ['PFK_Lt_c','PFK_Dk_c'],
                 ['PFK_Lt_p','PFK_Dk_p'],
-                ['F16_Aldolase','F16_Aldolase_Dk_c'],
+                ['F16_Aldolase_Lt_c','F16_Aldolase_Dk_c'],
                 ['F16_Aldolase_Lt_p','F16_Aldolase_Dk_p'],
                 ['Triose_P_Isomerase_Lt_c','Triose_P_Isomerase_Dk_c'],
-                ['Triose_P_Isomerase_Lt_p','Triose_P_Isomerase_Dk_c'],
+                ['Triose_P_Isomerase_Lt_p','Triose_P_Isomerase_Dk_p'],
                 ['GAPDH_Lt_c','GAPDH_Dk_c'],
                 ['GAPDH_Lt_p','GAPDH_Dk_p'],
                 #reflect GAP to G3P pathway
@@ -140,8 +140,8 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['PyruvateDH_Lt_p','PyruvateDH_Dk_p'],
                 ['Citrate_Synthase_Lt_m', 'Citrate_Synthase_Dk_m '],
                 ['Citrate_Synthase_Lt_x', 'Citrate_Synthase_Dk_x '],
-                ['Aconitase_Light_Lt_m ','Aconitase_Dk_m'],
-                ['Aconitase_Light_Lt_c','Aconitase_Dk_c'],
+                ['Aconitase_Lt_m ','Aconitase_Dk_m'],
+                ['Aconitase_Lt_c','Aconitase_Dk_c'],
                 ['IsocitrateDH_Lt_m','IsocitrateDH_Dk_m'],
                 ['2-oxoglutarateDH_Lt_m','2-oxoglutarateDH_Dk_m'],
                 ['SuccinateTK_Lt_m','SuccinateTK_Dk_m'],
@@ -235,9 +235,9 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['AOX2','AOX2']
                 ]
     reactions = [['NADH-DEHYDROG-A-RXN_Light_m','NADH-DEHYDROG-A-RXN_Light_m'],
-                 ['1.10.2.2-RXN_Light_m','1.10.2.2-RXN_Dark_m'],
-                 ['CYTOCHROME-C-OXIDASE-RXN_Light_m','CYTOCHROME-C-OXIDASE-RXN_Dark_m'],
                  ['SUCCINATE-DEHYDROGENASE-UBIQUINONE-RXN_Light_m','SUCCINATE-DEHYDROGENASE-UBIQUINONE-RXN_Dark_m'],
+                 ['CYTOCHROME-C-OXIDASE-RXN_Light_m','CYTOCHROME-C-OXIDASE-RXN_Dark_m'],
+                 ['1.10.2.2-RXN_Light_m','1.10.2.2-RXN_Dark_m'],
                  ['RXN-6883_Light_m','RXN-6883_Dark_m'],
                  ['RXN-6884_Light_m','RXN-6884_Dark_m']
                  #Add all the RXN0-5330
@@ -271,6 +271,59 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     tempGroup = [tempDataframe,'PHOTOSYSTEMS']
     print_groups.append(tempGroup)
     excel_groups.append(tempDataframe)
+    
+    ###################
+    #### BIOMASSES ####
+    ###################
+
+    rxnIndex = [['Sucrose_Light_biomass','Sucrose_Dark_biomass'],
+                ['Alanine_Light_biomass','Alanine_Dark_biomass'],
+                ['Arginine_Light_biomass','Arginine_Dark_biomass'],
+                ['Aspartate_Light_biomass','Aspartate_Dark_biomass'],
+                ['Glutamate_Light_biomass','Glutamate_Dark_biomass'],
+                ['Glutamine_Light_biomass','Glutamine_Dark_biomass'],
+                ['Glycine_Light_biomass','Glycine_Dark_biomass'],
+                ['Serine_Light_biomass','Serine_Dark_biomass'],
+                ['Tyrosine_Light_biomass','Tyrosine_Dark_biomass'],
+                ['Histidine_Light_biomass','Histidine_Dark_biomass'],
+                ['Isoleucine_Light_biomass','Isoleucine_Dark_biomass'],
+                ['Leucine_Light_biomass','Leucine_Dark_biomass'],
+                ['Lysine_Light_biomass','Lysine_Dark_biomass'],
+                ['Methionine_Light_biomass','Methionine_Dark_biomass'],
+                ['Phenylalanine_Light_biomass','Phenylalanine_Dark_biomass'],
+                ['Threonine_Light_biomass','Threonine_Dark_biomass'],
+                ['Tryptophan_Light_biomass','Tryptophan_Dark_biomass'],
+                ['Valine_Light_biomass','Valine_Dark_biomass']
+                ]
+                
+
+    reactions = [['Sucrose_Light_biomass','Sucrose_Dark_biomass'],
+                ['Alanine_Light_biomass','Alanine_Dark_biomass'],
+                ['Arginine_Light_biomass','Arginine_Dark_biomass'],
+                ['Aspartate_Light_biomass','Aspartate_Dark_biomass'],
+                ['Glutamate_Light_biomass','Glutamate_Dark_biomass'],
+                ['Glutamine_Light_biomass','Glutamine_Dark_biomass'],
+                ['Glycine_Light_biomass','Glycine_Dark_biomass'],
+                ['Serine_Light_biomass','Serine_Dark_biomass'],
+                ['Tyrosine_Light_biomass','Tyrosine_Dark_biomass'],
+                ['Histidine_Light_biomass','Histidine_Dark_biomass'],
+                ['Isoleucine_Light_biomass','Isoleucine_Dark_biomass'],
+                ['Leucine_Light_biomass','Leucine_Dark_biomass'],
+                ['Lysine_Light_biomass','Lysine_Dark_biomass'],
+                ['Methionine_Light_biomass','Methionine_Dark_biomass'],
+                ['Phenylalanine_Light_biomass','Phenylalanine_Dark_biomass'],
+                ['Threonine_Light_biomass','Threonine_Dark_biomass'],
+                ['Tryptophan_Light_biomass','Tryptophan_Dark_biomass'],
+                ['Valine_Light_biomass','Valine_Dark_biomass']
+                ]
+                
+    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
+    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    tempGroup = [tempDataframe,'BIOMASSES']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
+
+
 
 
     ##############
@@ -293,8 +346,6 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
         M1_rxn, M2_rxn, indexes = prepareDataForVisualization(reactions)
         tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn},index = indexes)
         tempGroup = [tempDataframe,'OTHERS']
-
-
 
     #### DISPLAYING ALL THE DATA IN CATEGORIES ####
 
