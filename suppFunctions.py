@@ -7,32 +7,53 @@
 
 import pandas as pd
 
-def prepareDataWithCustomIndex(sol_M1M2, sol_M, reacList, customIndex):
+def prepareDataWithCustomIndex(sol_M1M2, sol_M, reacList, customIndex, M1M2only = False):
 
     all_M_rxn = []
     all_M1_rxn = []
     all_M2_rxn = []
     all_index = []
+    all_M1M2_rxn = []
+    
+    if M1M2only:
+        
+        for rxn in range(len(reacList)):
 
-    for rxn in range(len(reacList)):
+            lightRxn = reacList[rxn][0]
+            darkRxn = reacList[rxn][1]
+            tempM1M2 = [sol_M1M2[lightRxn],sol_M1M2[darkRxn]]
 
-        lightRxn = reacList[rxn][0]
-        darkRxn = reacList[rxn][1]
-        tempM1 = [sol_M1M2[lightRxn+'_M1'],sol_M1M2[darkRxn+'_M1']]
-        tempM2 = [sol_M1M2[lightRxn+'_M2'],sol_M1M2[darkRxn+'_M2']]
-        tempM = [sol_M[lightRxn],sol_M[darkRxn]]
-        tempIndex = customIndex[rxn]
+            tempIndex = customIndex[rxn]
 
-        for rxn in tempM1:
-            all_M1_rxn.append(rxn)
-        for rxn in tempM2:
-            all_M2_rxn.append(rxn)
-        for rxn in tempM:
-            all_M_rxn.append(rxn)
-        for i in tempIndex:
-            all_index.append(i)
+            for rxn in tempM1M2:
+                all_M1M2_rxn.append(rxn)
+            for i in tempIndex:
+                all_index.append(i)
 
-    return all_M1_rxn, all_M2_rxn, all_M_rxn, all_index
+        return all_M1M2_rxn, all_index
+    
+    
+    else:
+
+        for rxn in range(len(reacList)):
+
+            lightRxn = reacList[rxn][0]
+            darkRxn = reacList[rxn][1]
+            tempM1 = [sol_M1M2[lightRxn+'_M1'],sol_M1M2[darkRxn+'_M1']]
+            tempM2 = [sol_M1M2[lightRxn+'_M2'],sol_M1M2[darkRxn+'_M2']]
+            tempM = [sol_M[lightRxn],sol_M[darkRxn]]
+            tempIndex = customIndex[rxn]
+
+            for rxn in tempM1:
+                all_M1_rxn.append(rxn)
+            for rxn in tempM2:
+                all_M2_rxn.append(rxn)
+            for rxn in tempM:
+                all_M_rxn.append(rxn)
+            for i in tempIndex:
+                all_index.append(i)
+
+        return all_M1_rxn, all_M2_rxn, all_M_rxn, all_index
 
 
 # ### Function for visualising reactions in categories, and writing to excel sheet
@@ -52,6 +73,27 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
 
     print_groups = []
     excel_groups =[]
+    
+    
+    #########################
+    #### EVOLUTIONARY RXN ###
+    #########################
+
+
+    #QUESTION, ALL SHOULD BE IN THE _c?
+    #Confusion on GAP vs G3p. rxn GAPXNPHOSPHN - why does GAP straight away go to DPG? and what is DPG
+    rxnIndex = [['GLY-DC_Lt_m','GLY-DC_Dk_m']
+               ]
+
+    reactions = [['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m']
+                ]
+
+    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M, reactions, rxnIndex)
+    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    tempGroup = [tempDataframe,'EVOLUTIONARY RXN']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
+    
 
     ###################
     #### GLYCOLYSIS ###
@@ -322,6 +364,25 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     tempGroup = [tempDataframe,'BIOMASSES']
     print_groups.append(tempGroup)
     excel_groups.append(tempDataframe)
+    
+    #######################
+    #### _TX REACTIONS ####
+    #######################
+
+    rxnIndex = [['CO2_Light_tx','CO2_Dark_tx'],
+                ['O2_Light_tx','O2_Dark_tx']
+               ]
+
+
+    reactions = [['CO2_Light_tx','CO2_Dark_tx'],
+                ['O2_Light_tx','O2_Dark_tx']
+               ]
+                
+    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
+    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    tempGroup = [tempDataframe,'_tx_rxn']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
 
 
 
@@ -329,13 +390,53 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     ##############
     #### M1M2 ####
     ##############
+    
 
-    rxnIndex = [['GAPDH_Light','GAPDH_Dark'],['ROFL_Light','ROFL_Dark']]
-    reactions = [['1.2.1.9-RXN_Light_c','1.2.1.9-RXN_Dark_c']]
+    rxnIndex = [['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+                ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+                ['MET_Light_M1M2','MET_Dark_M1M2'],
+                ['LEU_Light_M1M2','LEU_Dark_M1M2'],
+                ['HIS_Light_M1M2','HIS_Dark_M1M2'],
+                ['VAL_Light_M1M2','VAL_Dark_M1M2'],
+                ['ILE_Light_M1M2','ILE_Dark_M1M2'],
+                ['L-ALPHA-ALANINE_Light_M1M2','L-ALPHA-ALANINE_Dark_M1M2'],
+                ['L-ASPARTATE_Light_M1M2','L-ASPARTATE_Dark_M1M2'],
+                ['SER_Light_M1M2','SER_Dark_M1M2'],
+                ['TYR_Light_M1M2','TYR_Dark_M1M2'],
+                ['LYS_Light_M1M2','LYS_Dark_M1M2'],
+                ['PHE_Light_M1M2','PHE_Dark_M1M2'],
+                ['ARG_Light_M1M2','ARG_Dark_M1M2'],
+                ['TRP_Light_M1M2','TRP_Dark_M1M2'],
+                ['GLT_Light_M1M2','GLT_Dark_M1M2'],
+                ['ASN_Light_M1M2','ASN_Dark_M1M2'],
+                ['THR_Light_M1M2','THR_Dark_M1M2']
+               ]
+    reactions = [['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+                ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+                ['MET_Light_M1M2','MET_Dark_M1M2'],
+                ['LEU_Light_M1M2','LEU_Dark_M1M2'],
+                ['HIS_Light_M1M2','HIS_Dark_M1M2'],
+                ['VAL_Light_M1M2','VAL_Dark_M1M2'],
+                ['ILE_Light_M1M2','ILE_Dark_M1M2'],
+                ['L-ALPHA-ALANINE_Light_M1M2','L-ALPHA-ALANINE_Dark_M1M2'],
+                ['L-ASPARTATE_Light_M1M2','L-ASPARTATE_Dark_M1M2'],
+                ['SER_Light_M1M2','SER_Dark_M1M2'],
+                ['TYR_Light_M1M2','TYR_Dark_M1M2'],
+                ['LYS_Light_M1M2','LYS_Dark_M1M2'],
+                ['PHE_Light_M1M2','PHE_Dark_M1M2'],
+                ['ARG_Light_M1M2','ARG_Dark_M1M2'],
+                ['TRP_Light_M1M2','TRP_Dark_M1M2'],
+                ['GLT_Light_M1M2','GLT_Dark_M1M2'],
+                ['ASN_Light_M1M2','ASN_Dark_M1M2'],
+                ['THR_Light_M1M2','THR_Dark_M1M2']
+               ]
+    
 
-    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
-    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    M1M2_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M, reactions, rxnIndex, M1M2only=True)
+    tempDataframe = pd.DataFrame({'M1M2':M1M2_rxn},index = indexes)
     tempGroup = [tempDataframe,'M1M2']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
 
 
     ################
