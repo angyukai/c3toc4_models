@@ -82,13 +82,25 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
 
     #QUESTION, ALL SHOULD BE IN THE _c?
     #Confusion on GAP vs G3p. rxn GAPXNPHOSPHN - why does GAP straight away go to DPG? and what is DPG
-    rxnIndex = [['GLY-DC_Lt_m','GLY-DC_Dk_m']
+    rxnIndex = [['GLY-DC_Lt_m','GLY-DC_Dk_m'],
+                ['PEPCase_Lt_c','PEPCase_Dk_c'],
+                ['CA_Lt_c','CA_Dk_c'],
+                ['Rubisco-Carbox_Lt_p','Rubisco-Carbox_Dk_p'],
+                ['Rubisco-Oxy_Lt_p','Rubisco-Oxy_Dk_p'],
+                ['NADP-ME_Lt_c', 'NADP-ME_Dk_c']
                ]
 
-    reactions = [['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m']
+    reactions = [['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m'],
+                 ['PEPCARBOX-RXN_Light_c','PEPCARBOX-RXN_Dark_c'],
+                 ['RXN0-5224_Light_c','RXN0-5224_Dark_c'],
+                 ['RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p','RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Dark_p'],
+                 ['RXN-961_Light_p','RXN-961_Dark_p'],
+                 ['MALIC-NADP-RXN_Light_c','MALIC-NADP-RXN_Dark_c']
                 ]
 
     M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M, reactions, rxnIndex)
+    title = pd.DataFrame({'M':[' ']},index = ['Evolutionary Rxn'])
+    excel_groups.append(title)
     tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
     tempGroup = [tempDataframe,'EVOLUTIONARY RXN']
     print_groups.append(tempGroup)
@@ -159,6 +171,8 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ]
 
     M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M, reactions, rxnIndex)
+    title = pd.DataFrame({'M':[' ']},index = ['GLYCOLYSIS'])
+    excel_groups.append(title)
     tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
     tempGroup = [tempDataframe,'GLYCOLYSIS']
     print_groups.append(tempGroup)
@@ -216,8 +230,8 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
 
 
     M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
-    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
-    tempGroup = [tempDataframe,'TCA']
+    title = pd.DataFrame({'M':[' ']},index = ['TCA'])
+    excel_groups.append(title)
     print_groups.append(tempGroup)
     excel_groups.append(tempDataframe)
 
@@ -392,7 +406,10 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     ##############
     
 
-    rxnIndex = [['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+    rxnIndex = [
+        ['Malate_Lt_M1M2','Malate_Dk_M1M2'],
+        ['Pyruvate_Lt_M1M2','Pyruvate_Dk_M1M2'],
+                ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
                 ['GLY_Light_M1M2','GLY_Dark_M1M2'],
                 ['MET_Light_M1M2','MET_Dark_M1M2'],
                 ['LEU_Light_M1M2','LEU_Dark_M1M2'],
@@ -411,7 +428,10 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['ASN_Light_M1M2','ASN_Dark_M1M2'],
                 ['THR_Light_M1M2','THR_Dark_M1M2']
                ]
-    reactions = [['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+    reactions = [
+        ['MAL_Light_M1M2','MAL_Dark_M1M2'],
+        ['PYRUVATE_Light_M1M2','PYRUVATE_Dark_M1M2'],
+                ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
                 ['GLY_Light_M1M2','GLY_Dark_M1M2'],
                 ['MET_Light_M1M2','MET_Dark_M1M2'],
                 ['LEU_Light_M1M2','LEU_Dark_M1M2'],
@@ -455,7 +475,7 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
         print print_groups[group][0]
         print '\n'
 
-    #### If write data is true ####
+    #### IF WRITING DATA INTO EXCEL ####
     if writeData:
         result = pd.concat(excel_groups)
 
