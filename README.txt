@@ -1,1 +1,4 @@
-DuplicateAraModel_v2 is basically models the original C3 model M, and another model M1 and M2. They are essentially ALL the same. Next steps will be focused on creating interactions between M1 and M2.
+So far at this stage, I have began adding the evolutionary reactions for C4 evolution. (E.g. GDC, PEPCase, NADP-ME etc)
+It's mostly done in the file "DuplicateAraModel_v2_bundlesheath".
+
+I have started on another file "DuplicateAraModel_v2_NADP-ME" which attempts to 'evolve' the model into a NADP-ME subtype. But I'm going to create a new branch for this, step-4. 
