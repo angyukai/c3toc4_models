@@ -1,0 +1,1 @@
+DuplicateAraModel_v2 is basically models the original C3 model M, and another model M1 and M2. They are essentially ALL the same. Next steps will be focused on creating interactions between M1 and M2.
