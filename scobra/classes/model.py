@@ -197,7 +197,7 @@ class model(cobra.Model):
         print reacname + '\t' + reacstoi
 
     def PrintReactions(self, reactions=None, AsMetNames=False):
-        if not reactions:
+        if reactions == None:
             reactions = self.reactions
         elif isinstance(reactions,str):
             reactions = self.Reactions(reactions)
@@ -359,6 +359,18 @@ class model(cobra.Model):
         MinSolve.MinFluxSolve(self, PrintStatus=PrintStatus,
                               PrimObjVal=PrimObjVal, norm=norm,
                               weighting=weighting, ExcReacs=ExcReacs)
+    def AdjustedMinFluxSolve(self, PrintStatus=True, PrimObjVal=True, weighting='uniform', ExcReacs=[],
+                             SolverName=None, StartToleranceVal = 0,DisplayMsg=False):
+        
+        """ Adjusts the Minflux_objective constraint for feasible solution
+            StartToleranceVal = starting tolerance value"""
+        MinSolve.AdjustedMinFluxSolve(self, PrintStatus=PrintStatus,
+                              PrimObjVal=PrimObjVal,
+                              weighting=weighting, ExcReacs=ExcReacs,
+                                      SolverName=SolverName, Tolerance = StartToleranceVal,DisplayMsg=DisplayMsg)
+
+
+        
 
     def MinReactionsSolve(self, PrintStatus=True, PrimObjVal=True,
                           ExcReacs=[]):
@@ -555,7 +567,7 @@ class model(cobra.Model):
         for reac in ratiodic:
             temp_rd[self.GetReaction(reac)] = ratiodic[reac]
         reactions = self.GetReactions(temp_rd.keys())
-
+        
         for reac in reactions[1:]:
             metname = reactions[0].id + "_" + reac.id + "_fixedratio"
             self.AddMetabolite(metname)
@@ -564,7 +576,7 @@ class model(cobra.Model):
             reac.add_metabolites({met:temp_rd[reactions[0]]})
         if GetMetName:
             return metname
-
+    
 
 
 
@@ -599,6 +611,15 @@ class model(cobra.Model):
     def DelMetabolites(self, mets, method='subtractive'):
         for met in mets:
             self.DelMetabolite(met, method=method)
+
+    def SubstituteMetabolite(self, met_from, met_to):
+        met_from = self.GetMetabolite(met_from)
+        met_to = self.GetMetabolite(met_to)
+        iw = self.InvolvedWith(met_from)
+        for r in iw:
+            r.add_metabolites({met_to:iw[r]}, combine=True)
+            r.add_metabolites({met_from:-iw[r]}, combine=True)
+
 
     def AddReaction(self, reac, stodic, rev=False, bounds=None, name=None,
                     subsystem=None):
@@ -716,11 +737,6 @@ class model(cobra.Model):
                               reacs=reacs)
         flux(sol).Print(lo=lo, hi=hi, f=f, Sort=Sort, sortabs=sortabs,
                   reverse=reverse)
-
-    '''Allows you to print a list of reaction solutions'''
-    def PrintSolList(self, f=list):
-        for element in f:
-            self.PrintSol(f=element)
 
     def SolsDiff(self, sol1, sol2, IncZeroes=False, AsMtx=False, tol=1e-10):
         return flux(sol1).Diff(sol2, IncZeroes=IncZeroes, AsMtx=AsMtx, tol=tol)

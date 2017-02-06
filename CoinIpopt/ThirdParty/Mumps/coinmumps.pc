@@ -1,0 +1,12 @@
+prefix=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin/ThirdParty
+
+Name: Mumps
+Description: Multifrontal Massively Parallel sparse direct Solver
+URL: https://projects.coin-or.org/BuildTools
+Version: 1.5.5
+Libs: -L${libdir} -lcoinmumps -framework Accelerate  -L/usr/local/Cellar/gcc/6.3.0_1/lib/gcc/6/gcc/x86_64-apple-darwin15.6.0/6.3.0 -L/usr/local/Cellar/gcc/6.3.0_1/lib/gcc/6/gcc/x86_64-apple-darwin15.6.0/6.3.0/../../.. -lgfortran -lSystem -lquadmath -lm
+Cflags: -I${includedir}
+Requires: coinmetis 

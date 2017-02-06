@@ -1,0 +1,10 @@
+prefix=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt
+libdir=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Apps/AmplSolver
+
+Name: IPOPT
+Description: Ampl Interface TNLP to Ipopt
+URL: https://projects.coin-or.org/Ipopt
+Version: 3.12.6
+Libs: ${libdir}/libipoptamplinterface.la 
+Cflags: -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Apps/AmplSolver
+Requires: ipopt coinasl 

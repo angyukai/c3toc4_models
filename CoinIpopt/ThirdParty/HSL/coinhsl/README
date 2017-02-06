@@ -1,0 +1,48 @@
+Legal Notice
+============
+ALL USAGE OF HSL IS SUBJECT TO LICENCE. PLEASE REFER TO THE FILE 'LICENCE'
+DISTRIBUTED WITH THIS SOFTWARE. THIS LICENCE APPLIES TO ALL FILES UNLESS
+OTHERWISE INDICATED. IF YOU OBTAINED A COPY OF THIS SOFTWARE WITHOUT THIS FILE,
+PLEASE CONTACT HSL@STFC.AC.UK TO OBTAIN ONE.
+
+In particular:
+1) You are obliged to cite HSL in any publication or report as:
+   "HSL, a collection of Fortran codes for large-scale scientific computation.
+    See http://www.hsl.rl.ac.uk/"
+2) You may not make available to others the software in any form, either as
+   source or as a precompiled object.
+
+Introduction
+============
+Thanks for downloading HSL software. You can find out more information about
+HSL by visiting our website: http://www.hsl.rl.ac.uk/
+
+This package is intended to be used exclusively with IPOPT. To obtain the full
+version of the packages please download them from the HSL web address above.
+
+Installation
+============
+
+You may compile IPOPT either before or after the installation of this package.
+While doing so ensure that the IPOPT directory ThirdParty/HSL does not contain
+any HSL code.
+
+Compilation follows the standard process:
+   ./configure
+   make
+
+To install the library, module and header files into /usr/local you may
+use the following command (this may require root permissions):
+   make install
+
+To use the library, ensure that the library libcoinhsl.so can be found
+by both the linker and the dynamic library loader. You can either add the
+path to the ldconfig configuration, or explicitly set the environment
+variable LD_LIBRARY_PATH.
+
+For further options, including installation in locations other than
+/usr/local and specifying the use of particular Fortran compilers and
+compile flags please run
+   ./configure --help
+
+The file INSTALL contains more detailed information.

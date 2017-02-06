@@ -14,6 +14,204 @@ import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 init_notebook_mode(connected=True)
 
+def totalAbsFlux(sol_M1M2):
+    totalFlux = 0
+    
+    for i in sol_M1M2:
+        totalFlux += sol_M1M2[i]
+        
+    return totalFlux
+
+#TO BE DELETED
+# def RubiscoEfficiencyAnalysis(solM,m1m2,totalSteps = 20,maxRatio = 10.0, carbox = 1, oxy = 1, filename = None):
+    
+#     step = maxRatio/totalSteps
+#     step = round(step,2)
+#     m1m2_photon = []
+#     m_photon = solM['Photon_Light_tx']
+#     ratio_index = []
+    
+#     for i in range(totalSteps):
+        
+#         try:
+#             m1m2.DelMetabolite('RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2_RXN-961_Light_p_M2_fixedratio')
+#             m1m2.SetReacsFixedRatio({"RXN-961_Light_p_M2":oxy, "RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2":carbox})
+#             m1m2.MinFluxSolve()
+#         except ValueError:
+#             m1m2.DelMetabolite('RXN-961_Light_p_M2_RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2_fixedratio')
+#             m1m2.SetReacsFixedRatio({"RXN-961_Light_p_M2":oxy, "RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2":carbox})
+#             m1m2.MinFluxSolve()
+            
+#         print 'carbox:oxy |', carbox,':',oxy 
+        
+#         solM1M2 = m1m2.GetSol()
+
+#         photonDiff = solM1M2['Photon_Light_tx_M1'] + solM1M2['Photon_Light_tx_M2'] - solM['Photon_Light_tx']
+        
+#         print 'M1M2-M photon diff: ', photonDiff
+#         if (photonDiff) < 0:
+#             print 'EFFICIENCY THRESHOLD: carbox:oxy | ', carbox,':',oxy
+        
+#         #preparing lists for dataframe
+#         m1m2_photon.append(solM1M2['Photon_Light_tx_M1'] + solM1M2['Photon_Light_tx_M2'])
+#         ratio_index.append(str(carbox)+':'+str(oxy))
+        
+#         carbox += step
+
+#     tempdf = pd.DataFrame({'M1M2_Photon':m1m2_photon,'M_photon':m_photon},index = ratio_index)
+#     tempGroup = [tempdf,'Photonstuff']
+    
+#     print tempGroup[1]
+#     print tempGroup[0]
+    
+#     M1M2_photon = go.Bar(
+#             x= ratio_index,
+#             y= m1m2_photon,
+#             name = 'photons'
+#         )
+    
+    
+#     data = [M1M2_photon]
+    
+#     layout = {
+        
+#         'shapes': [
+#             {'type': 'line',
+#                 'x0': -1,
+#                 'y0': m_photon,
+#                 'x1': len(m1m2_photon),
+#                 'y1': m_photon,
+#                 'line': {
+#                     'color': 'rgb(255, 0, 0)',
+#                     'width': 2,
+#                     'dash': 'dashdot',
+#                 },
+#             }
+#         ]
+#     }
+
+    
+#     fig = {
+#         'data': data,
+#         'layout': layout,
+#     }
+    
+
+#     iplot(fig, filename = 'photon-testing-plot')
+
+
+#     if filename!= None :
+
+#         # Create a Pandas Excel writer using XlsxWriter as the engine.
+#         writer = pd.ExcelWriter(filename, engine='xlsxwriter')
+#         tempdf.to_excel(writer, sheet_name='Sheet1',startcol = 1)
+#         # Close the Pandas Excel writer and output the Excel file.
+#         writer.save()
+        
+def RubiscoEfficiencyAnalysis(solM,m1m2,totalSteps = 20,maxRatio = 10.0, carbox = 1, oxy = 1, filename = None, mainTitle = 'Default Title'):
+    
+    step = maxRatio/totalSteps
+    step = round(step,2)
+    m1m2_photon = []
+    m_photon = solM['Photon_Light_tx']
+    ratio_index = []
+    
+    for i in range(totalSteps):
+        
+        try:
+            m1m2.DelMetabolite('RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2_RXN-961_Light_p_M2_fixedratio')
+            m1m2.SetReacsFixedRatio({"RXN-961_Light_p_M2":oxy, "RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2":carbox})
+            m1m2.MinFluxSolve()
+        except ValueError:
+            m1m2.DelMetabolite('RXN-961_Light_p_M2_RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2_fixedratio')
+            m1m2.SetReacsFixedRatio({"RXN-961_Light_p_M2":oxy, "RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p_M2":carbox})
+            m1m2.MinFluxSolve()
+            
+        print 'carbox:oxy |', carbox,':',oxy 
+        
+        solM1M2 = m1m2.GetSol()
+
+        photonDiff = solM1M2['Photon_Light_tx_M1'] + solM1M2['Photon_Light_tx_M2'] - solM['Photon_Light_tx']
+        
+        print 'M1M2-M photon diff: ', photonDiff
+        if (photonDiff) < 0:
+            print 'EFFICIENCY THRESHOLD: carbox:oxy | ', carbox,':',oxy
+        
+        #preparing lists for dataframe
+        m1m2_photon.append(solM1M2['Photon_Light_tx_M1'] + solM1M2['Photon_Light_tx_M2'])
+        ratio_index.append(str(carbox)+':'+str(oxy))
+        
+        carbox += step
+
+    tempdf = pd.DataFrame({'Ratios':ratio_index,'M1M2_Photon':m1m2_photon,'M_photon':m_photon},index=ratio_index)
+    tempGroup = [tempdf,'Photonstuff']
+    
+    print tempGroup[1]
+    print tempGroup[0]
+    
+
+    rxn = tempdf.index
+    photon = tempdf['M1M2_Photon']
+    
+    df = pd.DataFrame({'x':rxn,'y':photon})
+    
+    photon_data1 = go.Bar(
+            x=df['x'],
+            y=df['y'],
+            name = 'M1'
+        )
+
+    trace1 = go.Scatter(
+        x=0,
+        y=1,
+        mode='lines+markers+text',
+        name='Lines, Markers and Text',
+        text=['Efficiency Threshold'],
+        textposition='top'
+    )
+
+    layout = go.Layout(
+        
+        yaxis=dict(
+        title='Photon Flux',
+        ),
+        
+        xaxis=dict(
+        title='Carboxylase : Oxygenase (Ratio)',
+        ),
+        
+        shapes= [
+            {'type': 'line',
+                'x0': -1,
+                'y0': m_photon,
+                'x1': len(m1m2_photon),
+                'y1': m_photon,
+                'line': {
+                    'color': 'rgb(255, 0, 0)',
+                    'width': 2,
+                    'dash': 'dashdot',
+                },
+            }
+        ]
+
+    )
+    
+    data = [photon_data1,trace1]
+    fig = go.Figure(data=data, layout=layout)
+    fig['layout'].update(title=mainTitle)
+    iplot(fig)
+    
+    if filename!= None :
+
+        # Create a Pandas Excel writer using XlsxWriter as the engine.
+        writer = pd.ExcelWriter(filename, engine='xlsxwriter')
+        tempdf.to_excel(writer, sheet_name='Sheet1',startcol = 1)
+        # Close the Pandas Excel writer and output the Excel file.
+        writer.save()
+
+
+        
+
 def prepareDataWithCustomIndex(sol_M1M2, sol_M, reacList, customIndex, M1M2only = False):
 
     all_M_rxn = []
@@ -84,23 +282,43 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     print_groups = []
     excel_groups =[]
     
+    #######################
+    #### IMPT Reactions ###
+    #######################
+
+
+    rxnIndex = [
+                ['Photon_Light_tx','Photon_Dark_tx'],
+                ['Suc_Lt_biomass','Suc_Dk_biomass'],
+                ['CO2_Lt_tx','CO2_Dk_tx'],
+                ['O2_Lt_tx','O2_Dk_tx']
+               ]
+
+
+    reactions = [
+                ['Photon_Light_tx','Photon_Dark_tx'],
+                ['Sucrose_Light_biomass','Sucrose_Dark_biomass'],
+                ['CO2_Light_tx','CO2_Dark_tx'],
+                ['O2_Light_tx','O2_Dark_tx']
+               ]
+                
+    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
+    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    tempGroup = [tempDataframe,'Input/output reactions']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
     
     #########################
     #### EVOLUTIONARY RXN ###
     #########################
 
-
-    #QUESTION, ALL SHOULD BE IN THE _c?
-    #Confusion on GAP vs G3p. rxn GAPXNPHOSPHN - why does GAP straight away go to DPG? and what is DPG
     rxnIndex = [
-            #['GLY-DC_Lt_m','GLY-DC_Dk_m'],
                 ['PEPCase_Lt_c','PEPCase_Dk_c'],
                 ['PPDK_Lt_p','PPDK_Dk_p'],
                 ['PPDK_Lt_c','PPDK_Dk_c'],
-                ['PEP_p_to_c_Lt','PEP_p_to_c_Dk'],
-                #['CA_Lt_c','CA_Dk_c'],
+                ['CA_Lt_c','CA_Dk_c'],
+                ['GLY-DC_Lt_m','GLY-DC_Dk_m'],
                 #['OAA_Lt_mc','OAA_Dk_mc'],
-                ['OAA_p_to_c_Lt','OAA_p_to_c_Dk'],
                 ['NADP-OAA-to-MAL_Lt_p','NADP-OAA-to-MAL_Dk_p'],
                 ['NAD-OAA-to-MAL_Lt_p','NAD-OAA-to-MAL_Dk_p'],
                 ['NAD-OAA-to-MAL_Lt_c','NAD-OAA-to-MAL_Dk_c'],
@@ -109,18 +327,17 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['NADP-ME_Lt_p', 'NADP-ME_Dk_p'],
                 ['NADP-ME_Lt_c','NADP-ME_Dk_c'],
                 ['Rubisco-Carbox_Lt_p','Rubisco-Carbox_Dk_p'],
-                ['Rubisco-Oxy_Lt_p','Rubisco-Oxy_Dk_p'],
+                ['Rubisco-Oxy_Lt_p','Rubisco-Oxy_Dk_p']
 
                ]
 
     reactions = [
-        #['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m'],
+        
                 ['PEPCARBOX-RXN_Light_c','PEPCARBOX-RXN_Dark_c'],
                 ['PYRUVATEORTHOPHOSPHATE-DIKINASE-RXN_Light_p','PYRUVATEORTHOPHOSPHATE-DIKINASE-RXN_Dark_p'],
                 ['PYRUVATEORTHOPHOSPHATE-DIKINASE-RXN_Light_c','PYRUVATEORTHOPHOSPHATE-DIKINASE-RXN_Dark_c'],
-                ['PEP_Pi_Light_pc','PEP_Pi_Dark_pc'],
-                ['OAA_Light_pc','OAA_Dark_pc'],
-                 #['RXN0-5224_Light_c','RXN0-5224_Dark_c'],
+                ['RXN0-5224_Light_c','RXN0-5224_Dark_c'],
+                ['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m'],
                  #['OAA_Pi_Light_mc','OAA_Pi_Dark_mc'],
                 ['MALATE-DEHYDROGENASE-NADP+-RXN_Light_p','MALATE-DEHYDROGENASE-NADP+-RXN_Dark_p'],
                 ['MALATE-DEH-RXN_Light_p','MALATE-DEH-RXN_Dark_p'],
@@ -130,7 +347,7 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
                 ['MALIC-NADP-RXN_Light_p','MALIC-NADP-RXN_Dark_p'],
                 ['MALIC-NADP-RXN_Light_c','MALIC-NADP-RXN_Dark_c'],
                 ['RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Light_p','RIBULOSE-BISPHOSPHATE-CARBOXYLASE-RXN_Dark_p'],
-                ['RXN-961_Light_p','RXN-961_Dark_p'],
+                ['RXN-961_Light_p','RXN-961_Dark_p']
         ]
 
 
@@ -140,6 +357,43 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     print_groups.append(tempGroup)
     excel_groups.append(tempDataframe)
     
+    
+    ###########################
+    #### IMPT TRANSPORT RXN ###
+    ###########################
+
+
+    #QUESTION, ALL SHOULD BE IN THE _c?
+    #Confusion on GAP vs G3p. rxn GAPXNPHOSPHN - why does GAP straight away go to DPG? and what is DPG
+    rxnIndex = [
+            #['GLY-DC_Lt_m','GLY-DC_Dk_m'],
+                ['PEP_p_to_c_Lt','PEP_p_to_c_Dk'],
+                ['OAA_MAL_Lt_pc','OAA_MAL_Dk_pc'],
+                ['DHAP_3PGA_Lt_pc','DHAP_3PGA_Dk_pc']
+                #['CA_Lt_c','CA_Dk_c'],
+                #['OAA_Lt_mc','OAA_Dk_mc'],
+
+
+               ]
+
+    reactions = [
+        #['GCVMULTI-RXN_Light_m','GCVMULTI-RXN_Dark_m'],
+                ['PEP_Pi_Light_pc','PEP_Pi_Dark_pc'],
+                ['OAA_MAL_Light_pc','OAA_MAL_Dark_pc'],
+                ['DHAP_3PGA_Light_pc','DHAP_3PGA_Dark_pc']
+                 #['RXN0-5224_Light_c','RXN0-5224_Dark_c'],
+                 #['OAA_Pi_Light_mc','OAA_Pi_Dark_mc'],
+
+        ]
+
+
+    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M, reactions, rxnIndex)
+    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
+    tempGroup = [tempDataframe,'Transport Rxn']
+    print_groups.append(tempGroup)
+    excel_groups.append(tempDataframe)
+    
+    
     ############################
     #### IMPT M1M2 TRANSPORT ###
     ############################
@@ -148,15 +402,21 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     rxnIndex = [
         ['Malate_Lt_M1M2','Malate_Dk_M1M2'],
         ['Pyruvate_Lt_M1M2','Pyruvate_Dk_M1M2'],
-                ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
-                ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+        ['DHAP_Lt_M1M2','DHAP_Dk_M1M2'],
+        ['G3P_Lt_M1M2','G3p_Dk_M1M2'],
+        ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+        ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+        ['CO2_Light_M1M2','CO2_Dark_M1M2']
         ]
 
     reactions = [
         ['MAL_Light_M1M2','MAL_Dark_M1M2'],
         ['PYRUVATE_Light_M1M2','PYRUVATE_Dark_M1M2'],
-                ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
-                ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+        ['DIHYDROXY-ACETONE-PHOSPHATE_Light_M1M2','DIHYDROXY-ACETONE-PHOSPHATE_Dark_M1M2'],
+        ['G3P_Light_M1M2','G3P_Dark_M1M2'],
+        ['Sucrose_Light_M1M2','Sucrose_Dark_M1M2'],
+        ['GLY_Light_M1M2','GLY_Dark_M1M2'],
+        ['CO2_Light_M1M2','CO2_Dark_M1M2']
 
                ]
 
@@ -438,26 +698,6 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
     print_groups.append(tempGroup)
     excel_groups.append(tempDataframe)
     
-    #######################
-    #### _TX REACTIONS ####
-    #######################
-
-    rxnIndex = [['CO2_Light_tx','CO2_Dark_tx'],
-                ['O2_Light_tx','O2_Dark_tx']
-               ]
-
-
-    reactions = [['CO2_Light_tx','CO2_Dark_tx'],
-                ['O2_Light_tx','O2_Dark_tx']
-               ]
-                
-    M1_rxn, M2_rxn, M_rxn, indexes = prepareDataWithCustomIndex(sol_M1M2, sol_M,reactions, rxnIndex)
-    tempDataframe = pd.DataFrame({'M1':M1_rxn,'M2':M2_rxn,'M':M_rxn},index = indexes)
-    tempGroup = [tempDataframe,'_tx_rxn']
-    print_groups.append(tempGroup)
-    excel_groups.append(tempDataframe)
-
-
 
 
     ##############
@@ -522,7 +762,12 @@ def visualizeDataCategories(sol_M1M2, sol_M, reacList = None , printData=True, w
         tempGroup = [tempDataframe,'OTHERS']
 
     #### DISPLAYING ALL THE DATA IN CATEGORIES ####
-
+    
+    totalFlux = totalAbsFlux(sol_M1M2)
+    print 'Total Flux:', totalFlux
+    photonDiff = sol_M1M2['Photon_Light_tx_M1'] + sol_M1M2['Photon_Light_tx_M2'] - sol_M['Photon_Light_tx']
+    print 'M1M2-M Photon Diff:', photonDiff
+    print '\n'
     for group in range(len(print_groups)):
         print print_groups[group][1]
         print print_groups[group][0]
@@ -587,19 +832,54 @@ def pltFluxChange(df1, df2):
             name = 'M1M2'
         )
 
+    layout = go.Layout(
+        barmode='group'
 
+    )
+    
+    data = [M1data,M2data,M1M2data]
+    fig = go.Figure(data=data, layout=layout)
+    fig['layout'].update(title='Changes between Intermediates')
+    iplot(fig)
+
+def pltFluxChangeWithOriginal(df):
+    
+    rxn = df.index
+    M1diff = df['M1'] - df['M']
+    M2diff = df['M2'] - df['M']
+
+
+
+    tempdf = pd.DataFrame({'x':rxn,'y':M1diff})
+    M1data = go.Bar(
+            x=tempdf['x'],
+            y=tempdf['y'],
+            name = 'M1diff'
+        )
+
+    tempdf2 = pd.DataFrame({'x':rxn,'y':M2diff})
+    M2data = go.Bar(
+            x=tempdf2['x'], 
+            y=tempdf2['y'],
+            name = 'M2diff'
+        )
 
 
     layout = go.Layout(
         barmode='group'
 
     )
-    data = [M1data,M2data,M1M2data]
-    fig = go.Figure(data=data, layout=layout)
-    iplot(fig)
 
+    # fig = tools.make_subplots(rows=2, cols=1)
 
-    
+    fig = tools.make_subplots(rows = 2, cols = 1, shared_xaxes=True, vertical_spacing = 0
+                             )
+
+    fig.append_trace(M1data, 1, 1)
+    fig.append_trace(M2data, 2, 1)
+    fig['layout'].update(title='Changes from original model M')
+
+    iplot(fig, filename='test1')
 
 
 

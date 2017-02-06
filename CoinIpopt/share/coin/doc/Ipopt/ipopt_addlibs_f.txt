@@ -1,0 +1,1 @@
+-n  -n  -n  -n  -n  -n  -n  -L/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/lib -L/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/lib -lipopt -framework Accelerate -ldl -lcoinmumps -framework Accelerate -lcoinmetis -lcoinhsl        -lc++

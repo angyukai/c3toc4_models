@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model id="automatic">
+    <listOfCompartments>
+      <compartment id="main" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A" compartment="main" initialConcentration="0" boundaryCondition="false"/>
+      <species id="A_ext" compartment="main" initialConcentration="0" boundaryCondition="false"/>
+      <species id="C" compartment="main" initialConcentration="0" boundaryCondition="false"/>
+      <species id="B" compartment="main" initialConcentration="0" boundaryCondition="false"/>
+      <species id="D" compartment="main" initialConcentration="0" boundaryCondition="false"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R4" name="R4">
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R1" name="R1">
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R2" name="R2">
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R3" name="R3">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="sink" name="sink">
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="tx_A" name="tx_A">
+        <listOfReactants>
+          <speciesReference species="A_ext" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 0 </cn>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

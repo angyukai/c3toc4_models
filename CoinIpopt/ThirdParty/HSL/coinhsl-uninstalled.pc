@@ -1,0 +1,10 @@
+prefix=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt
+libdir=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/HSL
+
+Name: HSL
+Description: Harwell Subroutines Library
+URL: https://projects.coin-or.org/BuildTools
+Version: 1.5.5
+Cflags: -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/HSL -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/HSL
+Libs: ${libdir}/libcoinhsl.la   -L/usr/local/Cellar/gcc/6.3.0_1/lib/gcc/6/gcc/x86_64-apple-darwin15.6.0/6.3.0 -L/usr/local/Cellar/gcc/6.3.0_1/lib/gcc/6/gcc/x86_64-apple-darwin15.6.0/6.3.0/../../.. -lgfortran -lSystem -lquadmath -lm
+Requires: 

@@ -1,0 +1,9 @@
+prefix=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt
+libdir=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/ASL
+
+Name: ASL
+Description: AMPL Solver Library
+URL: https://projects.coin-or.org/BuildTools
+Version: 1.3.5
+Libs: ${libdir}/libcoinasl.la -lm -ldl 
+Cflags: -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/ASL -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/ThirdParty/ASL/solvers

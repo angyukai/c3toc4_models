@@ -1,0 +1,10 @@
+prefix=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt
+libdir=/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Interfaces
+
+Name: IPOPT
+Description: Interior Point Optimizer
+URL: https://projects.coin-or.org/Ipopt
+Version: 3.12.6
+Libs: ${libdir}/libipopt.la -framework Accelerate -framework Accelerate -lm  -ldl
+Cflags: -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Interfaces -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Common -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/LinAlg -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Algorithm -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/contrib/CGPenalty -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/contrib/LinearSolverLoader -I/Users/yukai/Documents/Capstone/c3toc4_models-new/CoinIpopt/Ipopt/src/Common
+Requires: coinmumps coinhsl >= 1.3 
